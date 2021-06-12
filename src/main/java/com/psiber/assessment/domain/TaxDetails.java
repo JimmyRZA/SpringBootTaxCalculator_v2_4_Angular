@@ -1,5 +1,10 @@
 package com.psiber.assessment.domain;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class TaxDetails {
 	
 	TaxDetails( ) {
@@ -10,8 +15,9 @@ public class TaxDetails {
 	private String age;
 	private String monthlyEarnings;
 	private String annualEarnings;
-	private String medicalMain;
 	
+	String[] memberElements;
+
 	public String getTaxYear() {
 		return taxYear;
 	}
@@ -36,13 +42,14 @@ public class TaxDetails {
 	public void setAnnualEarnings(String annualEarnings) {
 		this.annualEarnings = annualEarnings;
 	}
-	public String getMedicalMain() {
-		return medicalMain;
+	public String[] getMemberElements() {
+		return memberElements;
 	}
-	public void setMedicalMain(String medicalMain) {
-		this.medicalMain = medicalMain;
+	public void setMemberElements(String[] memberElements) {
+		this.memberElements = memberElements;
 	}
 	
 	
+
 
 }

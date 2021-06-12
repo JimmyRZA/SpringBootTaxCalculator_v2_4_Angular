@@ -1,17 +1,21 @@
 package com.psiber.assessment.controllers;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.psiber.assessment.domain.CalculatedPaye;
 import com.psiber.assessment.domain.TaxDetails;
 
 /**
  * @author Jimmy Mhlanga
+ * Tax Calculator for Angular Front-end tax calculator website
  *
  */
 @RestController
@@ -22,16 +26,13 @@ public class PsiberAssessmentController {
 
 	private float _annualEarnings;
 	private float calculatedmonthlyTax;
-	private float calculatedAnnualTax;
-	private float calculatedTaxCredits;
-	private float payeDue;
-	private float nettCash;
 	private int age;
 	private float lessTaxableInc;
 	private int taxYear;
+	private int medicalAidMembers = 0;
 
 	@CrossOrigin(origins = "http://localhost:4200")
-	@PostMapping("/addTaxDetails")
+	@PostMapping(value ="/addTaxDetails", consumes = {MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<CalculatedPaye> getCalculatedPAYE(@RequestBody TaxDetails taxdetails) {
 
 		calculatedPaye = new CalculatedPaye();
@@ -43,6 +44,8 @@ public class PsiberAssessmentController {
 		age = Integer.parseInt(taxdetails.getAge());
 
 		taxYear = Integer.parseInt(taxdetails.getTaxYear());
+		
+		medicalAidMembers = taxdetails.getMemberElements().length - 1;
 
 		if (taxYear == 2021) {
 			if (_annualEarnings >= 0 && _annualEarnings <= 205900) {
@@ -52,7 +55,7 @@ public class PsiberAssessmentController {
 
 				calculatedPaye.setAnnualTax(calculatedmonthlyTax * 12);
 
-				calculatedPaye.setTaxCredits(319);
+				calculatedPaye.setTaxCredits(319 * medicalAidMembers);
 
 				calculatedPaye.setPayeDue(calculatedPaye.getAnnualTax() - calculatedPaye.getTaxCredits());
 
@@ -63,7 +66,7 @@ public class PsiberAssessmentController {
 				calculatedmonthlyTax = calculateMonthlyTax(lessTaxableInc, (float) 0.26, 37062, age, taxYear);
 				calculatedPaye.setMonthlyTax(calculatedmonthlyTax);
 				calculatedPaye.setAnnualTax(calculatedmonthlyTax * 12);
-				calculatedPaye.setTaxCredits(319);
+				calculatedPaye.setTaxCredits(319 * medicalAidMembers);
 
 				calculatedPaye.setPayeDue(calculatedPaye.getAnnualTax() - calculatedPaye.getTaxCredits());
 
@@ -74,7 +77,7 @@ public class PsiberAssessmentController {
 				calculatedmonthlyTax = calculateMonthlyTax(lessTaxableInc, (float) 0.31, 67144, age, taxYear);
 				calculatedPaye.setMonthlyTax(calculatedmonthlyTax);
 				calculatedPaye.setAnnualTax(calculatedmonthlyTax * 12);
-				calculatedPaye.setTaxCredits(319);
+				calculatedPaye.setTaxCredits(319 * medicalAidMembers);
 
 				calculatedPaye.setPayeDue(calculatedPaye.getAnnualTax() - calculatedPaye.getTaxCredits());
 
@@ -85,7 +88,7 @@ public class PsiberAssessmentController {
 				calculatedmonthlyTax = calculateMonthlyTax(lessTaxableInc, (float) 0.36, 105429, age, taxYear);
 				calculatedPaye.setMonthlyTax(calculatedmonthlyTax);
 				calculatedPaye.setAnnualTax(calculatedmonthlyTax * 12);
-				calculatedPaye.setTaxCredits(319);
+				calculatedPaye.setTaxCredits(319 * medicalAidMembers);
 
 				calculatedPaye.setPayeDue(calculatedPaye.getAnnualTax() - calculatedPaye.getTaxCredits());
 
@@ -96,7 +99,7 @@ public class PsiberAssessmentController {
 				calculatedmonthlyTax = calculateMonthlyTax(lessTaxableInc, (float) 0.39, 155505, age, taxYear);
 				calculatedPaye.setMonthlyTax(calculatedmonthlyTax);
 				calculatedPaye.setAnnualTax(calculatedmonthlyTax * 12);
-				calculatedPaye.setTaxCredits(319);
+				calculatedPaye.setTaxCredits(319 * medicalAidMembers);
 
 				calculatedPaye.setPayeDue(calculatedPaye.getAnnualTax() - calculatedPaye.getTaxCredits());
 
@@ -107,7 +110,7 @@ public class PsiberAssessmentController {
 				calculatedmonthlyTax = calculateMonthlyTax(lessTaxableInc, (float) 0.41, 218139, age, taxYear);
 				calculatedPaye.setMonthlyTax(calculatedmonthlyTax);
 				calculatedPaye.setAnnualTax(calculatedmonthlyTax * 12);
-				calculatedPaye.setTaxCredits(319);
+				calculatedPaye.setTaxCredits(319 * medicalAidMembers);
 
 				calculatedPaye.setPayeDue(calculatedPaye.getAnnualTax() - calculatedPaye.getTaxCredits());
 
@@ -118,7 +121,7 @@ public class PsiberAssessmentController {
 				calculatedmonthlyTax = calculateMonthlyTax(lessTaxableInc, (float) 0.45, 559464, age, taxYear);
 				calculatedPaye.setMonthlyTax(calculatedmonthlyTax);
 				calculatedPaye.setAnnualTax(calculatedmonthlyTax * 12);
-				calculatedPaye.setTaxCredits(319);
+				calculatedPaye.setTaxCredits(319 * medicalAidMembers);
 
 				calculatedPaye.setPayeDue(calculatedPaye.getAnnualTax() - calculatedPaye.getTaxCredits());
 
@@ -133,7 +136,7 @@ public class PsiberAssessmentController {
 
 				calculatedPaye.setAnnualTax(calculatedmonthlyTax * 12);
 
-				calculatedPaye.setTaxCredits(319);
+				calculatedPaye.setTaxCredits(319 * medicalAidMembers);
 
 				calculatedPaye.setPayeDue(calculatedPaye.getAnnualTax() - calculatedPaye.getTaxCredits());
 
@@ -144,7 +147,7 @@ public class PsiberAssessmentController {
 				calculatedmonthlyTax = calculateMonthlyTax(lessTaxableInc, (float) 0.26, 37062, age, taxYear);
 				calculatedPaye.setMonthlyTax(calculatedmonthlyTax);
 				calculatedPaye.setAnnualTax(calculatedmonthlyTax * 12);
-				calculatedPaye.setTaxCredits(319);
+				calculatedPaye.setTaxCredits(319 * medicalAidMembers);
 
 				calculatedPaye.setPayeDue(calculatedPaye.getAnnualTax() - calculatedPaye.getTaxCredits());
 
@@ -155,7 +158,7 @@ public class PsiberAssessmentController {
 				calculatedmonthlyTax = calculateMonthlyTax(lessTaxableInc, (float) 0.31, 67144, age, taxYear);
 				calculatedPaye.setMonthlyTax(calculatedmonthlyTax);
 				calculatedPaye.setAnnualTax(calculatedmonthlyTax * 12);
-				calculatedPaye.setTaxCredits(319);
+				calculatedPaye.setTaxCredits(319 * medicalAidMembers);
 
 				calculatedPaye.setPayeDue(calculatedPaye.getAnnualTax() - calculatedPaye.getTaxCredits());
 
@@ -166,7 +169,7 @@ public class PsiberAssessmentController {
 				calculatedmonthlyTax = calculateMonthlyTax(lessTaxableInc, (float) 0.36, 105429, age, taxYear);
 				calculatedPaye.setMonthlyTax(calculatedmonthlyTax);
 				calculatedPaye.setAnnualTax(calculatedmonthlyTax * 12);
-				calculatedPaye.setTaxCredits(319);
+				calculatedPaye.setTaxCredits(319 * medicalAidMembers);
 
 				calculatedPaye.setPayeDue(calculatedPaye.getAnnualTax() - calculatedPaye.getTaxCredits());
 
@@ -177,7 +180,7 @@ public class PsiberAssessmentController {
 				calculatedmonthlyTax = calculateMonthlyTax(lessTaxableInc, (float) 0.39, 155505, age, taxYear);
 				calculatedPaye.setMonthlyTax(calculatedmonthlyTax);
 				calculatedPaye.setAnnualTax(calculatedmonthlyTax * 12);
-				calculatedPaye.setTaxCredits(319);
+				calculatedPaye.setTaxCredits(319 * medicalAidMembers);
 
 				calculatedPaye.setPayeDue(calculatedPaye.getAnnualTax() - calculatedPaye.getTaxCredits());
 
@@ -188,7 +191,7 @@ public class PsiberAssessmentController {
 				calculatedmonthlyTax = calculateMonthlyTax(lessTaxableInc, (float) 0.41, 218139, age, taxYear);
 				calculatedPaye.setMonthlyTax(calculatedmonthlyTax);
 				calculatedPaye.setAnnualTax(calculatedmonthlyTax * 12);
-				calculatedPaye.setTaxCredits(319);
+				calculatedPaye.setTaxCredits(319 * medicalAidMembers);
 
 				calculatedPaye.setPayeDue(calculatedPaye.getAnnualTax() - calculatedPaye.getTaxCredits());
 
@@ -199,7 +202,7 @@ public class PsiberAssessmentController {
 				calculatedmonthlyTax = calculateMonthlyTax(lessTaxableInc, (float) 0.45, 559464, age, taxYear);
 				calculatedPaye.setMonthlyTax(calculatedmonthlyTax);
 				calculatedPaye.setAnnualTax(calculatedmonthlyTax * 12);
-				calculatedPaye.setTaxCredits(319);
+				calculatedPaye.setTaxCredits(319 * medicalAidMembers);
 
 				calculatedPaye.setPayeDue(calculatedPaye.getAnnualTax() - calculatedPaye.getTaxCredits());
 
